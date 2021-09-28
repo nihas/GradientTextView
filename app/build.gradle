@@ -43,4 +43,5 @@ dependencies {
 
     implementation project(':gtv')
 //    implementation 'com.github.nihas:GradientTextView:1.0.1'
+//    implementation 'com.github.nihas:GradientTextView:1.0.1'
 }
