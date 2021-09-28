@@ -1,47 +1,55 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'maven-publish'
+//    id 'maven-publish'
 }
 
-def LIB_GROUP_ID = 'com.group.module'
-def LIB_ARTIFACT_ID = 'final'
-def LIB_VERSION = '1.0'
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier "sources"
-}
-publishing {
-    repositories {
-        maven {
-            name = 'GradientTextViewRepo'
-            url = "file://${buildDir}/repo"
-        }
-    }
-    publications {
-        release(MavenPublication) {
-            groupId LIB_GROUP_ID
-            artifactId LIB_ARTIFACT_ID
-            version LIB_VERSION
-            artifact("$buildDir/outputs/aar/gtv-debug.aar")
-            artifact(sourceJar)
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.api.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-        }
-    }
-}
+//def LIB_GROUP_ID = 'com.group.module'
+//def LIB_ARTIFACT_ID = 'final'
+//def LIB_VERSION = '1.0'
+//
+//task sourceJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier "sources"
+//}
+//publishing {
+//    repositories {
+//        maven {
+//            name = 'GradientTextViewRepo'
+//            url = "file://${buildDir}/repo"
+//        }
+//    }
+//    publications {
+//        release(MavenPublication) {
+//            groupId LIB_GROUP_ID
+//            artifactId LIB_ARTIFACT_ID
+//            version LIB_VERSION
+//            artifact("$buildDir/outputs/aar/gtv-debug.aar")
+//            artifact(sourceJar)
+//            pom.withXml {
+//                def dependenciesNode = asNode().appendNode('dependencies')
+//                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+//                configurations.api.allDependencies.each {
+//                    def dependencyNode = dependenciesNode.appendNode('dependency')
+//                    dependencyNode.appendNode('groupId', it.group)
+//                    dependencyNode.appendNode('artifactId', it.name)
+//                    dependencyNode.appendNode('version', it.version)
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 android {
+    packagingOptions {
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+
+
     compileSdk 31
 
     defaultConfig {

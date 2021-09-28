@@ -42,4 +42,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation project(':gtv')
+//    implementation 'com.github.nihas:GradientTextView:1.0.1'
 }
